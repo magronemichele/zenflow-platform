@@ -1,0 +1,250 @@
+/* =============================================================================
+   globals.css — ZenFlow Design System
+   Base styles, CSS custom properties, component classes, utility overrides.
+   ============================================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --clr-primary:     #00c4bc;
+  --clr-primary-dk:  #007a75;
+  --clr-accent:      #e8a020;
+  --clr-violet:      #7c4dba;
+
+  /* Backgrounds */
+  --clr-bg:          #002120;
+  --clr-bg-2:        #00312e;
+  --clr-surface:     rgba(255, 255, 255, 0.07);
+  --clr-surface-h:   rgba(255, 255, 255, 0.12);
+  --clr-border:      rgba(255, 255, 255, 0.13);
+
+  /* Typography */
+  --clr-text:        #f0fafa;
+  --clr-muted:       rgba(240, 250, 250, 0.55);
+  --clr-faint:       rgba(240, 250, 250, 0.28);
+
+  /* Radius */
+  --r-sm:   0.625rem;  /* 10px */
+  --r-md:   1rem;      /* 16px */
+  --r-lg:   1.375rem;  /* 22px */
+  --r-xl:   1.75rem;   /* 28px */
+  --r-full: 9999px;
+
+  /* Spacing scale */
+  --space-xs:  0.5rem;
+  --space-sm:  0.875rem;
+  --space-md:  1.25rem;
+  --space-lg:  2rem;
+  --space-xl:  3rem;
+
+  /* Transition */
+  --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --dur-fast: 180ms;
+  --dur-base: 280ms;
+  --dur-slow: 420ms;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    font-family: var(--font-body), 'Nunito', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+
+  /* Display headings use Cinzel */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), 'Cinzel', Georgia, serif;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  /* Focus ring — accessible */
+  :focus-visible {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+  /* Remove arrows from number inputs */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  /* Native select dark styling */
+  select option { background: #003330; color: #f0fafa; }
+}
+
+/* ─── Components ─────────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Glass surface card ─────────────────────────────── */
+  .glass {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--r-lg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .glass:hover { background: var(--clr-surface-h); }
+
+  /* ── Input field ────────────────────────────────────── */
+  .field {
+    @apply w-full rounded-xl border px-4 py-3 text-sm text-white
+           outline-none transition-all duration-[280ms]
+           focus:border-teal-400 focus:ring-2 focus:ring-teal-400/25;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--clr-border);
+  }
+  .field-error { @apply border-red-400 focus:border-red-400 focus:ring-red-400/20; }
+
+  .field-label {
+    @apply mb-1.5 block text-[11px] font-bold uppercase tracking-widest;
+    color: var(--clr-accent);
+  }
+
+  /* ── Buttons ────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5
+           text-sm font-bold tracking-wide transition-all duration-[180ms]
+           active:scale-95 disabled:cursor-not-allowed disabled:opacity-40
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1;
+  }
+
+  /* Teal primary */
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-teal-700 to-teal-500 text-white
+           shadow-glow hover:brightness-110 hover:shadow-glow
+           focus-visible:ring-teal-400;
+  }
+
+  /* Violet — subscription / premium CTAs */
+  .btn-violet {
+    @apply btn text-white
+           hover:brightness-110 focus-visible:ring-violet-400;
+    background: linear-gradient(135deg, #5a2e9a 0%, #a67edd 100%);
+  }
+
+  /* Outline ghost */
+  .btn-ghost {
+    @apply btn border bg-transparent text-white/70
+           hover:text-white focus-visible:ring-white/40;
+    border-color: var(--clr-border);
+  }
+
+  /* Danger */
+  .btn-danger {
+    @apply btn bg-red-600/80 text-white hover:bg-red-500 focus-visible:ring-red-400;
+  }
+
+  /* Icon-only button */
+  .btn-icon {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl
+           text-white/60 transition-all hover:text-white
+           active:scale-95;
+  }
+
+  /* ── Badge / chip ───────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5
+           text-[11px] font-semibold uppercase tracking-wide;
+  }
+  .badge-teal   { @apply badge bg-teal-500/20 text-teal-300; }
+  .badge-gold   { @apply badge bg-gold/20 text-gold; }
+  .badge-violet { @apply badge bg-violet/20 text-violet-light; }
+  .badge-red    { @apply badge bg-red-500/20 text-red-300; }
+
+  /* ── Section headings ────────────────────────────────── */
+  .section-title {
+    @apply font-display text-base font-bold uppercase tracking-wider;
+    color: var(--clr-accent);
+  }
+  .section-sub {
+    @apply text-xs font-medium;
+    color: var(--clr-muted);
+  }
+
+  /* ── Pill tab strip ──────────────────────────────────── */
+  .pill-tab {
+    @apply shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold
+           transition-all duration-[180ms] whitespace-nowrap;
+  }
+  .pill-tab-active  { background: var(--clr-accent); color: #002120; }
+  .pill-tab-inactive {
+    background: var(--clr-surface);
+    color: var(--clr-muted);
+    border: 1px solid var(--clr-border);
+  }
+  .pill-tab-inactive:hover { background: var(--clr-surface-h); color: var(--clr-text); }
+
+  /* ── Skeleton loader ─────────────────────────────────── */
+  .skeleton {
+    @apply rounded-xl;
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.05) 25%,
+      rgba(255,255,255,0.11) 50%,
+      rgba(255,255,255,0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite linear;
+  }
+
+  /* ── Nav link (desktop) ──────────────────────────────── */
+  .nav-item {
+    @apply text-xs font-bold uppercase tracking-wider
+           transition-colors duration-[180ms];
+    color: var(--clr-muted);
+  }
+  .nav-item:hover { color: var(--clr-text); }
+  .nav-item[data-active="true"] {
+    color: var(--clr-accent);
+    border-bottom: 2px solid var(--clr-accent);
+    padding-bottom: 2px;
+  }
+
+  /* ── Divider ─────────────────────────────────────────── */
+  .divider {
+    @apply my-4 h-px w-full;
+    background: var(--clr-border);
+  }
+}
+
+/* ─── Utilities ──────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .scrollbar-hide            { scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .text-muted  { color: var(--clr-muted); }
+  .text-faint  { color: var(--clr-faint); }
+  .text-accent { color: var(--clr-accent); }
+  .text-primary { color: var(--clr-primary); }
+
+  .bg-surface   { background: var(--clr-surface); }
+  .bg-surface-h { background: var(--clr-surface-h); }
+
+  /* Safe area bottom padding for iOS/Android */
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1rem); }
+}
