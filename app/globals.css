@@ -248,3 +248,11 @@
   /* Safe area bottom padding for iOS/Android */
   .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1rem); }
 }
+
+/* Layout and focus for the local wellness journal */
+:where(a, button, input, textarea, select):focus-visible { outline: 2px solid #8be5c6; outline-offset: 4px; }
+.glass { border-color: rgba(139, 229, 198, .22); }
+.section-title { letter-spacing: -.015em; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

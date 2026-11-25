@@ -1,6 +1,6 @@
 /**
  * @file app/(app)/profile/page.tsx
- * @description User profile management — edit personal details, change password, manage subscription.
+ * @description User profile management — edit demo profile details and membership.
  */
 "use client";
 import { useForm } from "react-hook-form";
@@ -65,8 +65,6 @@ export default function ProfilePage() {
           </div>
           <Input label="Phone" type="tel" error={errors.phone?.message} {...register("phone")} />
           <Input label="Email" type="email" error={errors.email?.message} {...register("email")} />
-          <Input label="New Password (optional)" type="password" placeholder="Leave blank to keep current" error={errors.password?.message} {...register("password")} />
-          <Input label="Confirm Password" type="password" error={errors.confirmPassword?.message} {...register("confirmPassword")} />
           <Button type="submit" className="w-full" isLoading={isSubmitting}>Save Changes</Button>
         </form>
       </div>

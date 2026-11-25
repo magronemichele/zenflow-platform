@@ -58,6 +58,7 @@ export default function LoginPage() {
           <p className="text-xs text-muted uppercase tracking-widest">Welcome back</p>
         </div>
 
+        <p className="mb-4 text-sm text-muted">Local demo. Use sample details. Your session and entries stay in this browser.</p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <Input
             label="Username"

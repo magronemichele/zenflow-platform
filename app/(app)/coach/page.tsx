@@ -1,6 +1,6 @@
 /**
  * @file app/(app)/coach/page.tsx
- * @description AI Wellness Coach chat interface.
+ * @description Local wellness coaching simulation.
  * Users pick a coach persona, then exchange messages.
  * In production, messages are forwarded to the /api/coach endpoint
  * which proxies to an LLM with the coach's system prompt.

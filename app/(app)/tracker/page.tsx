@@ -70,7 +70,7 @@ function WeightTab() {
   const pushToast = useStore((s) => s.pushToast);
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
-    useForm<WeightInput>({ resolver: zodResolver(weightSchema), defaultValues: { date: todayISO() } });
+    useForm({ resolver: zodResolver(weightSchema), defaultValues: { date: todayISO() } });
 
   async function onSubmit(data: WeightInput) {
     await new Promise((r) => setTimeout(r, 400));
@@ -118,7 +118,7 @@ function ActivityTab() {
   const pushToast   = useStore((s) => s.pushToast);
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
-    useForm<ActivityInput>({ resolver: zodResolver(activitySchema), defaultValues: { date: todayISO() } });
+    useForm({ resolver: zodResolver(activitySchema), defaultValues: { date: todayISO() } });
 
   async function onSubmit(data: ActivityInput) {
     await new Promise((r) => setTimeout(r, 400));
@@ -170,7 +170,7 @@ function MealsTab() {
   const pushToast = useStore((s) => s.pushToast);
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
-    useForm<MealInput>({ resolver: zodResolver(mealSchema), defaultValues: { date: todayISO() } });
+    useForm({ resolver: zodResolver(mealSchema), defaultValues: { date: todayISO() } });
 
   async function onSubmit(data: MealInput) {
     await new Promise((r) => setTimeout(r, 400));

@@ -26,7 +26,7 @@ export default function SignupPage() {
   const [showPw, setShowPw] = useState(false);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } =
-    useForm<SignupInput>({ resolver: zodResolver(signupSchema) });
+    useForm({ resolver: zodResolver(signupSchema) });
 
   async function onSubmit(data: SignupInput) {
     await new Promise((r) => setTimeout(r, 800));
@@ -61,6 +61,7 @@ export default function SignupPage() {
           <p className="mt-1 text-xs text-muted">Join ZenFlow — your wellness journey starts here</p>
         </div>
 
+        <p className="mb-4 text-sm text-muted">Local demo. Use sample details. Your session and entries stay in this browser.</p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3" noValidate>
           <div className="grid grid-cols-2 gap-3">
             <Input label="First Name" placeholder="Jane"  error={errors.firstName?.message} {...register("firstName")} />

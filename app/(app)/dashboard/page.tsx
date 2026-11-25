@@ -15,9 +15,10 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, TrendingUp, Flame, Target, Zap } from "lucide-react";
+import { MessageCircle, TrendingUp, CalendarCheck, Dumbbell, Utensils } from "lucide-react";
 
 import { Carousel } from "@/components/carousel/Carousel";
+import { summarizeDay } from "@/lib/utils/wellnessSummary";
 import { HeroBanner } from "@/components/content/HeroBanner";
 import { ArticleCard } from "@/components/content/ArticleCard";
 import { useStore, selectUser } from "@/lib/store";
@@ -43,6 +44,13 @@ export default function DashboardPage() {
   const user    = useStore(selectUser);
   const weights = useStore((s) => s.weights);
 
+  const activities = useStore((state) => state.activities);
+  const meals = useStore((state) => state.meals);
+  const plans = useStore((state) => state.plans);
+  const today = new Intl.DateTimeFormat("sv-SE").format(new Date());
+  const { activityMinutes, mealCount, plan: planned, lastWeight } = summarizeDay(
+    { activities, meals, plans, weights }, today,
+  );
   const greeting = (() => {
     const h = new Date().getHours();
     if (h < 12) return "Good morning";
@@ -51,7 +59,7 @@ export default function DashboardPage() {
   })();
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 py-4">
+    <div className="mx-auto max-w-6xl space-y-8 py-4">
 
       {/* ── 1. Greeting & Stats ───────────────────────────── */}
       <section className="px-4">
@@ -63,18 +71,18 @@ export default function DashboardPage() {
         </p>
 
         {/* Mini stat chips */}
-        <div className="mt-4 flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { icon: Flame,    label: "Streak",   value: "7 days",  color: "text-orange-400" },
-            { icon: Target,   label: "Goal",     value: "On track",color: "text-teal-400" },
-            { icon: Zap,      label: "Energy",   value: "High",    color: "text-gold" },
-            { icon: TrendingUp,label:"Progress", value: weights.length > 0 ? `${weights[0].valueKg} kg` : "—", color: "text-violet-light" },
+            { icon: Dumbbell, label: "Activity today", value: `${activityMinutes} min`, color: "text-teal-400" },
+            { icon: Utensils, label: "Meals today", value: String(mealCount), color: "text-gold" },
+            { icon: CalendarCheck, label: "Today's plan", value: planned?.isCompleted ? "Complete" : planned ? "Planned" : "—", color: "text-orange-400" },
+            { icon: TrendingUp, label: "Last recorded weight", value: lastWeight ? `${lastWeight.valueKg} kg` : "—", color: "text-violet-light" },
           ].map(({ icon: Icon, label, value, color }) => (
             <div key={label} className="glass shrink-0 flex items-center gap-2 rounded-2xl px-3 py-2">
               <Icon size={15} className={color} aria-hidden="true" />
               <div>
-                <p className="text-[9px] text-muted uppercase font-bold tracking-wide">{label}</p>
-                <p className="text-xs font-bold text-white">{value}</p>
+                <p className="text-xs text-muted">{label}</p>
+                <p className="text-base font-bold text-white">{value}</p>
               </div>
             </div>
           ))}
@@ -84,8 +92,7 @@ export default function DashboardPage() {
       {/* ── 2. Hero carousel ─────────────────────────────── */}
       <Carousel
         title="Featured"
-        subtitle="Handpicked for you today"
-        autoplay={5000}
+        subtitle="From the wellness library"
         showDots
         className="px-0"
       >
@@ -99,7 +106,7 @@ export default function DashboardPage() {
         <div className="mb-3 flex items-end justify-between">
           <div>
             <h2 className="section-title">Daily Tips</h2>
-            <p className="section-sub mt-0.5">Science-backed micro-habits</p>
+            <p className="section-sub mt-0.5">Ideas for your routine</p>
           </div>
         </div>
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
@@ -118,7 +125,7 @@ export default function DashboardPage() {
       {/* ── 4. Trending Articles carousel ────────────────── */}
       <Carousel
         title="Trending Now"
-        subtitle="Most-read this week"
+        subtitle="From the sample library"
         seeAll={{ label: "See all", href: "/explore" }}
         cols={2}
       >
@@ -165,15 +172,15 @@ export default function DashboardPage() {
       <section className="px-4">
         <div
           className="relative overflow-hidden rounded-3xl p-5"
-          style={{ background: "linear-gradient(135deg, #5a2e9a 0%, #00a8a1 100%)" }}
+          style={{ background: "#173e38" }}
         >
           <div className="relative z-10">
-            <p className="badge badge-gold mb-3">AI Powered</p>
+            <p className="badge badge-gold mb-3">Local simulation</p>
             <h2 className="font-display text-lg font-bold text-white mb-2">
               Meet Your Personal Wellness Coach
             </h2>
             <p className="text-xs text-white/70 mb-4 max-w-xs">
-              Get personalised advice, workout plans and nutrition guidance — available 24/7.
+              Explore sample conversations about habits, movement, and meals. Replies come from a built-in set of examples.
             </p>
 
             {/* Coach avatars */}

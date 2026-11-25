@@ -36,12 +36,12 @@ export const signupSchema = z
 // ─── Tracker ──────────────────────────────────────────────────────────────────
 
 export const weightSchema = z.object({
-  valueKg: z.coerce.number().min(1, "Enter weight in kg"),
+  valueKg: z.coerce.number().min(1, "Enter weight in kg").max(600),
   date:    z.string().min(1, "Select a date"),
 });
 
 export const activitySchema = z.object({
-  durationMin:  z.coerce.number().min(1, "Enter duration in minutes").max(1440),
+  durationMin:  z.coerce.number().int().min(1, "Enter duration in minutes").max(1440),
   activityType: z.string().min(2, "Describe the activity"),
   date:         z.string().min(1, "Select a date"),
 });
@@ -49,7 +49,7 @@ export const activitySchema = z.object({
 export const mealSchema = z.object({
   mealType:    z.enum(["breakfast", "lunch", "snack", "dinner"]),
   description: z.string().min(3, "Describe the meal"),
-  calories:    z.coerce.number().optional(),
+  calories:    z.preprocess(value => value === "" ? undefined : value, z.coerce.number().int().min(0).max(15000).optional()),
   date:        z.string().min(1, "Select a date"),
 });
 
@@ -71,32 +71,14 @@ export const dayPlanSchema = z.object({
   notes:          z.string().optional(),
 });
 
-// ─── Payment ──────────────────────────────────────────────────────────────────
-
-export const paymentSchema = z.object({
-  cardholderName: z.string().min(3, "Enter the cardholder name"),
-  cardNumber: z
-    .string()
-    .regex(/^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/, "Enter a valid card number"),
-  cvv:    z.string().regex(/^\d{3,4}$/, "Enter a valid CVV"),
-  expiry: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Format: MM/YY"),
-});
-
 // ─── Profile ──────────────────────────────────────────────────────────────────
 
-export const profileSchema = z
-  .object({
-    firstName: z.string().min(2),
-    lastName:  z.string().min(2),
-    phone:     z.string().optional(),
-    email:     z.string().email(),
-    password:         z.string().min(8).optional().or(z.literal("")),
-    confirmPassword:  z.string().optional().or(z.literal("")),
-  })
-  .refine((d) => !d.password || d.password === d.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export const profileSchema = z.object({
+  firstName: z.string().trim().min(2),
+  lastName: z.string().trim().min(2),
+  phone: z.string().optional(),
+  email: z.email(),
+});
 
 // ─── Inferred types ───────────────────────────────────────────────────────────
 
@@ -107,5 +89,4 @@ export type ActivityInput = z.infer<typeof activitySchema>;
 export type MealInput     = z.infer<typeof mealSchema>;
 export type NoteInput     = z.infer<typeof noteSchema>;
 export type DayPlanInput  = z.infer<typeof dayPlanSchema>;
-export type PaymentInput  = z.infer<typeof paymentSchema>;
 export type ProfileInput  = z.infer<typeof profileSchema>;

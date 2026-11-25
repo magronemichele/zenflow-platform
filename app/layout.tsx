@@ -29,23 +29,9 @@ const nunito = Nunito({
 /* ── SEO Metadata ────────────────────────────────────────────────────────── */
 
 export const metadata: Metadata = {
-  title:       { default: "ZenFlow", template: "%s · ZenFlow" },
-  description: "Your personal wellness companion — expert articles, smart tracking, AI coaching.",
-  keywords:    ["wellness", "health", "fitness", "nutrition", "meditation", "tracker"],
-  authors:     [{ name: "Giulia Rossi", url: "https://zenflow.app" }],
-  openGraph: {
-    type:        "website",
-    locale:      "en_GB",
-    siteName:    "ZenFlow",
-    title:       "ZenFlow — Your Wellness, Elevated",
-    description: "Expert articles, smart daily tracking, AI wellness coaching.",
-    images:      [{ url: "/og-image.png", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card:  "summary_large_image",
-    title: "ZenFlow — Your Wellness, Elevated",
-  },
-  robots: { index: true, follow: true },
+  title: { default: "ZenFlow", template: "%s · ZenFlow" },
+  description: "A local wellness journal for routines, meals, and movement.",
+  authors: [{ name: "Michele Magrone" }, { name: "Giovanni Rutigliano" }],
 };
 
 export const viewport: Viewport = {
